@@ -1,6 +1,6 @@
 //jquery.boldviewer.js
 
-/*! BoldViewer @version 0.0.1-0 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.0.1-8 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 
 ;( function ( window, document, $, undefined ) {
 

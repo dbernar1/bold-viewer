@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                 options: {
                     prefix: '@version\\s*'
                 },
-                src: ['jquery.boldviewer.js', 'boldviewer.scss']
+                src: ['jquery.boldviewer.js', 'boldviewer.scss', 'jquery.boldviewer.min.js', 'boldviewer.css', 'boldviewer.min.gcss']
             }
         },
 
