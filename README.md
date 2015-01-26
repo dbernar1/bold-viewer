@@ -1,2 +1,2 @@
-# Image-Viewer
-HTML5 and Javascript image viewer
+# Boldviewer
+HTML5 and jQuery image viewer

@@ -1,3 +1,4 @@
 /node_modules/
 /scss-lint.log
 /npm-debug.log
+/.sass-cache/
