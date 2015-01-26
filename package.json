@@ -1,6 +1,6 @@
 {
   "name": "bold-viewer",
-  "version": "0.0.1-7",
+  "version": "0.0.1-11",
   "description": "",
   "main": "",
   "scripts": {},
@@ -15,6 +15,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-git": "^0.3.3",
     "grunt-githooks": "^0.3.1",
+    "grunt-string-replace": "^1.0.0",
     "grunt-version": "^0.3.1",
     "watch": "^0.13.0"
   }

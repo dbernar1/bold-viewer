@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-version');
     grunt.loadNpmTasks('grunt-githooks');
     grunt.loadNpmTasks('grunt-git');
+    grunt.loadNpmTasks('grunt-string-replace');
     
     grunt.registerTask('default', ['githooks', 'sass', 'cssmin', 'uglify']);
     
@@ -45,12 +46,24 @@ module.exports = function (grunt) {
         version: {
             project: {
                 src: ['package.json']
-            },
-            sources: {
-                options: {
-                    prefix: '@version\\s*'
+            }
+        },
+        
+        'string-replace': {
+            version: {
+                files: {
+                    'jquery.boldviewer.js' : 'jquery.boldviewer.js',
+                    'jquery.boldviewer.min.js' : 'jquery.boldviewer.min.js',
+                    'boldviewer.scss' : 'boldviewer.scss',
+                    'boldviewer.css' : 'boldviewer.css',
+                    'boldviewer.min.css' : 'boldviewer.min.css'
                 },
-                src: ['jquery.boldviewer.js', 'boldviewer.scss', 'jquery.boldviewer.min.js', 'boldviewer.css', 'boldviewer.min.gcss']
+                options : {
+                    replacements: [{
+                        pattern: /@version\s([0-9.-]+)/,
+                        replacement: '@version <%= pkg.version %>'
+                    }]
+                }
             }
         },
 
@@ -75,7 +88,7 @@ module.exports = function (grunt) {
         
         githooks: {
             all: {
-                'pre-commit': 'version::prerelease sass cssmin uglify gitadd'
+                'pre-commit': 'version::prerelease sass cssmin uglify string-replace gitadd'
             }
         }
 
