@@ -88,7 +88,7 @@ module.exports = function (grunt) {
         
         githooks: {
             all: {
-                'pre-commit': 'version::prerelease sass cssmin uglify string-replace gitadd'
+                'pre-commit': 'version::prerelease | grunt sass cssmin uglify string-replace gitadd'
             }
         }
 
