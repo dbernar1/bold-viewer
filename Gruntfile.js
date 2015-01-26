@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-version');
     grunt.loadNpmTasks('grunt-githooks');
     
-    grunt.registerTask('default', ['version:project:prerelease', 'sass', 'cssmin', 'uglify']);
+    grunt.registerTask('default', ['githooks', 'sass', 'cssmin', 'uglify']);
     
     grunt.initConfig({
 
