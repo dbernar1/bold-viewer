@@ -68,7 +68,7 @@ module.exports = function (grunt) {
         gitadd: {
             boldviewer: {
                 files: {
-                    src: ['jquery.boldviewer.js', 'jquery.boldviewer.min.js', 'boldviewer.scss', 'boldviewer.css', 'boldviewer.min.css']
+                    src: ['package.json', 'jquery.boldviewer.js', 'jquery.boldviewer.min.js', 'boldviewer.scss', 'boldviewer.css', 'boldviewer.min.css']
                 }
             }
         },
