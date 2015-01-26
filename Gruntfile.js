@@ -7,6 +7,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-version');
     grunt.loadNpmTasks('grunt-githooks');
+    grunt.loadNpmTasks('grunt-git');
     
     grunt.registerTask('default', ['githooks', 'sass', 'cssmin', 'uglify']);
     
@@ -64,9 +65,17 @@ module.exports = function (grunt) {
             }
         },
         
+        gitadd: {
+            boldviewer: {
+                files: {
+                    src: ['jquery.boldviewer.js', 'jquery.boldviewer.min.js', 'boldviewer.scss', 'boldviewer.css', 'boldviewer.min.css']
+                }
+            }
+        },
+        
         githooks: {
             all: {
-                'pre-commit': 'version:project:prerelease sass cssmin uglify'
+                'pre-commit': 'version::prerelease sass cssmin uglify gitadd'
             }
         }
 
