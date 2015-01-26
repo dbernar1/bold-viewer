@@ -6,9 +6,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-version');
+    grunt.loadNpmTasks('grunt-githooks');
     
-    grunt.registerTask('default', ['sass', 'cssmin', 'concat', 'uglify']);
-
+    grunt.registerTask('default', ['version:project:prerelease', 'sass', 'cssmin', 'uglify']);
+    
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -43,17 +44,29 @@ module.exports = function (grunt) {
         version: {
             project: {
                 src: ['package.json']
-            }  
+            },
+            sources: {
+                options: {
+                    prefix: '@version\\s*'
+                },
+                src: ['jquery.boldviewer.js', 'boldviewer.scss']
+            }
         },
 
         watch: {
             css: {
                 files: 'boldviewer.scss',
-                tasks: ['sass', 'cssmin', 'version::prerelease']
+                tasks: ['sass', 'cssmin']
             },
             js: {
                 files: 'jquery.boldviewer.js',
-                tasks: ['uglify', 'version::prerelease']
+                tasks: ['uglify']
+            }
+        },
+        
+        githooks: {
+            all: {
+                'pre-commit': 'version:project:prerelease sass cssmin uglify'
             }
         }
 
