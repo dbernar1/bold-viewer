@@ -44,9 +44,15 @@ module.exports = function (grunt) {
         },
         
         version: {
+            sources: {
+                options: {
+                    prefix: '@version\\s*'
+                },
+                src: ['jquery.boldviewer.js', 'boldviewer.scss']
+            },
             project: {
                 src: ['package.json']
-            }
+            },
         },
         
         'string-replace': {
@@ -77,7 +83,6 @@ module.exports = function (grunt) {
                 tasks: ['uglify']
             }
         },
-        
         gitadd: {
             boldviewer: {
                 files: {
@@ -88,9 +93,10 @@ module.exports = function (grunt) {
         
         githooks: {
             all: {
-                'pre-commit': 'version::prerelease | grunt sass cssmin uglify string-replace gitadd'
+                'pre-commit': 'version::prerelease sass cssmin uglify gitadd'
             }
         }
+
 
     });
 
