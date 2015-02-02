@@ -2,7 +2,7 @@
 
 //variables
 $top-height: 50px;
-$bottom-height: 150px;
+$bottom-height: 100px;
 $page-indicators-height: 20px;
 
 //mixins
@@ -112,10 +112,10 @@ $page-indicators-height: 20px;
     
     padding: 10px 30px;
     
-    opacity: 0.15;
+    opacity: 0.5;
     
     &:hover {
-        opacity: 0.5;
+        opacity: 0.75;
     }
     
     @include transition(opacity 0.2s ease);
@@ -125,6 +125,7 @@ $page-indicators-height: 20px;
         height: 100%;
         font-size: 2rem;
         cursor: pointer;
+        color: rgba(255,255,255,0.3);
         
         i {
             @include vertical-align;
@@ -157,15 +158,22 @@ $page-indicators-height: 20px;
     #boldviewer-page-indicators {
         height: $page-indicators-height;
         text-align: center;
+        overflow-x: visible;
+        white-space: nowrap;
+        width: 16px;
+        margin: 0px auto;
+        
+        @include transition(transform 0.2s ease);
         
         .page-indicator {
             display: inline-block;
-            margin: 0px 3px;
+            margin: 0px 0px;
             @include vertical-align;
             color: rgba(255,255,255,0.2);
+            width: 16px;
+            text-align: center;
             
             i {
-                
                 font-size: 10px;
             }
             
@@ -220,14 +228,16 @@ $page-indicators-height: 20px;
 }
 
 #boldviewer-prev, #boldviewer-next {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 7.5%;
+    
+    height: 25%;
+    width: 7%;
     background-color: rgba(0,0,0,0.2);
     color: rgba(255,255,255, 0.3);
-    opacity: 0.15;
+    opacity: 0.5;
     cursor: pointer;
+    
+    @include vertical-align;
+    position: absolute;
     
     i {
         font-size: 10rem;
@@ -240,7 +250,7 @@ $page-indicators-height: 20px;
     }
     
     &:hover {
-        opacity: 0.5;   
+        opacity: 0.75;   
     }
     
     @include transition(opacity 0.2s ease);

@@ -62,17 +62,18 @@
   left: 0;
   width: 100%;
   padding: 10px 30px;
-  opacity: 0.15;
+  opacity: 0.5;
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
   #boldviewer-top:hover {
-    opacity: 0.5; }
+    opacity: 0.75; }
   #boldviewer-top #boldviewer-close {
     float: right;
     height: 100%;
     font-size: 2rem;
-    cursor: pointer; }
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.3); }
     #boldviewer-top #boldviewer-close i {
       top: 50%;
       -webkit-transform: translateY(-50%);
@@ -85,12 +86,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 150px; }
+  height: 100px; }
   #boldviewer-bottom #boldviewer-bottom-tray {
     position: absolute;
     height: 100%;
     width: 100%;
-    transform: translateY(130px);
+    transform: translateY(80px);
     background-color: rgba(0, 0, 0, 0.5);
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
@@ -99,16 +100,25 @@
     transform: translateY(0); }
   #boldviewer-bottom #boldviewer-page-indicators {
     height: 20px;
-    text-align: center; }
+    text-align: center;
+    overflow-x: visible;
+    white-space: nowrap;
+    width: 16px;
+    margin: 0px auto;
+    -webkit-transition: transform 0.2s ease;
+    -spec-transition: transform 0.2s ease;
+    transition: transform 0.2s ease; }
     #boldviewer-bottom #boldviewer-page-indicators .page-indicator {
       display: inline-block;
-      margin: 0px 3px;
+      margin: 0px 0px;
       top: 50%;
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       position: relative;
-      color: rgba(255, 255, 255, 0.2); }
+      color: rgba(255, 255, 255, 0.2);
+      width: 16px;
+      text-align: center; }
       #boldviewer-bottom #boldviewer-page-indicators .page-indicator i {
         font-size: 10px; }
       #boldviewer-bottom #boldviewer-page-indicators .page-indicator.current {
@@ -119,7 +129,7 @@
     display: inline-block;
     overflow-x: visible;
     white-space: nowrap;
-    width: 130px;
+    width: 80px;
     left: 50%;
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
@@ -127,8 +137,8 @@
     #boldviewer-bottom #boldviewer-thumbnails .thumbnail {
       display: inline-block;
       box-sizing: border-box;
-      width: 120px;
-      height: 120px;
+      width: 70px;
+      height: 70px;
       margin: 0px 5px;
       background-size: cover !important;
       background-repeat: no-repeat;
@@ -147,14 +157,18 @@
   right: 0; }
 
 #boldviewer-prev, #boldviewer-next {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 7.5%;
+  height: 25%;
+  width: 7%;
   background-color: rgba(0, 0, 0, 0.2);
   color: rgba(255, 255, 255, 0.3);
-  opacity: 0.15;
+  opacity: 0.5;
   cursor: pointer;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: relative;
+  position: absolute;
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
@@ -171,6 +185,6 @@
         /* for screens smaller then 850px, set the font size smaller */
         font-size: 4rem; } }
   #boldviewer-prev:hover, #boldviewer-next:hover {
-    opacity: 0.5; }
+    opacity: 0.75; }
 
 /*# sourceMappingURL=boldviewer.css.map */

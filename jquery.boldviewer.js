@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.0.1-5 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.0.1-6 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
@@ -126,6 +126,7 @@
                 
                 viewer.pageIndicators.find('.page-indicator.current').removeClass('current');
                 viewer.pageIndicators.find('.page-indicator:nth-of-type(' + (index+1) + ")").addClass('current');
+                viewer.pageIndicators.css("transform", "translateX(-" + (index * 100) + "%)");
                 
                 viewer.thumbnails.find('.thumbnail.current').removeClass('current');
                 viewer.thumbnails.find('.thumbnail:nth-of-type(' + (index+1) + ")").addClass('current');
