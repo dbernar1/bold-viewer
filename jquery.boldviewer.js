@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.0.1-6 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.0.1-7 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
@@ -23,22 +23,22 @@
 			$selector = $( selector ),
             imageHtml = '<img class="content-item">',
 			/* jshint multistr: true */
-			html = '<div id="boldviewer-overlay">\
-					<div id="boldviewer-wrapper">\
-						<div id="boldviewer-content">\
-                            <div id="boldviewer-content-slider"></div>\
+			html = '<div id="bv-overlay">\
+					<div id="bv-wrapper">\
+						<div id="bv-content">\
+                            <div id="bv-content-slider"></div>\
                         </div>\
-                        <div id="boldviewer-overlays">\
-                            <a id="boldviewer-prev"><i class="fa fa-angle-left"></i></a>\
-                            <a id="boldviewer-next"><i class="fa fa-angle-right"></i></a>\
-                            <div id="boldviewer-top">\
-                                <div id="boldviewer-top-items"></div>\
-                                <a id="boldviewer-close"><i class="fa fa-close"></i></a>\
+                        <div id="bv-overlays">\
+                            <a id="bv-prev"><i class="fa fa-angle-left"></i></a>\
+                            <a id="bv-next"><i class="fa fa-angle-right"></i></a>\
+                            <div id="bv-top">\
+                                <div id="bv-top-items"></div>\
+                                <a id="bv-close"><i class="fa fa-close"></i></a>\
                             </div>\
-                            <div id="boldviewer-bottom">\
-                                <div id="boldviewer-bottom-tray">\
-                                    <div id="boldviewer-page-indicators"></div>\
-                                    <div id="boldviewer-thumbnails"></div>\
+                            <div id="bv-bottom">\
+                                <div id="bv-bottom-tray">\
+                                    <div id="bv-page-indicators"></div>\
+                                    <div id="bv-thumbnails"></div>\
                                 </div>\
                             </div>\
                         </div>\
@@ -49,52 +49,52 @@
             init: function(index) {
                 $('body').append(html);
                 
-                viewer.slider = $("#boldviewer-content-slider");
-                viewer.pageIndicators = $('#boldviewer-page-indicators');
-                viewer.thumbnails = $('#boldviewer-thumbnails');
+                viewer.slider = $("#bv-content-slider");
+                viewer.pageIndicators = $('#bv-page-indicators');
+                viewer.thumbnails = $('#bv-thumbnails');
                 
                 $elem.each( function() {
-                    var $img = $('<div class="slide"><img data-src=' + $(this).attr('href') + ">");
+                    var $img = $('<div class="bv-slide"><img data-src=' + $(this).attr('href') + ">");
                     viewer.slider.append($img);
                     
-                    var $pageIndicator = $('<div class="page-indicator"><i class="fa fa-circle"></i></div>');
+                    var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
                     viewer.pageIndicators.append($pageIndicator);
                     
-                    var $thumbnail = $('<div class="thumbnail" style="background:url(' + $(this).data('thumbnail') + ')">');
+                    var $thumbnail = $('<div class="bv-thumbnail" style="background:url(' + $(this).data('thumbnail') + ')">');
                     viewer.thumbnails.append($thumbnail);
                 });
                 
-                viewer.slides = viewer.slider.find(".slide");
+                viewer.slides = viewer.slider.find(".bv-slide");
                 viewer.bindActions();
                 
 //                viewer.setSlide(index);
             },
             bindActions: function() {
-//                $('#bold-viewer-close, #boldviewer-overlay').on('click', function() {
+//                $('#bold-viewer-close, #bv-overlay').on('click', function() {
 //                    viewer.close();  
 //                });
                 
-                $('#boldviewer-next').on('click', function(e) {
+                $('#bv-next').on('click', function(e) {
                     e.stopPropagation();
                     viewer.nextSlide();
                 });
                 
-                $('#boldviewer-prev').on('click', function(e) {
+                $('#bv-prev').on('click', function(e) {
                     e.stopPropagation();
                     viewer.prevSlide();
                 });
                 
                 if(plugin.settings.hideOverlayTime > 0) {
-                    $('#boldviewer-wrapper').mousemove(this.handleMouseMove);
+                    $('#bv-wrapper').mousemove(this.handleMouseMove);
                 }
                 
-                $('.thumbnail').on('click', function(e) {
+                $('.bv-thumbnail').on('click', function(e) {
                     e.stopPropagation();
 
-                    viewer.setSlide(viewer.thumbnails.find('.thumbnail').index(this));
+                    viewer.setSlide(viewer.thumbnails.find('.bv-thumbnail').index(this));
                 });
                 
-                $('#boldviewer-close').on('click', function(e) {
+                $('#bv-close').on('click', function(e) {
                     e.stopPropagation();
                     viewer.close();
                 });
@@ -104,15 +104,15 @@
                     clearTimeout(viewer.mouseMoveTimer);
                 }
                 
-                $('#boldviewer-wrapper').removeClass('hide-overlays');
+                $('#bv-wrapper').removeClass('bv-hide-overlays');
                 
                 viewer.mouseMoveTimer = setTimeout(function () {
-                    $('#boldviewer-wrapper').addClass('hide-overlays');
+                    $('#bv-wrapper').addClass('bv-hide-overlays');
                 }, plugin.settings.hideOverlayTime);
             },
             close: function() {
-                $('#boldviewer-overlay').empty();
-                $('#boldviewer-overlay').remove();
+                $('#bv-overlay').empty();
+                $('#bv-overlay').remove();
             },
             setSlide: function(index) {
                 if(typeof index === 'undefined') {
@@ -124,12 +124,12 @@
                 
                 viewer.slider.css("transform", "translateX(-" + index * 100 + "%)");
                 
-                viewer.pageIndicators.find('.page-indicator.current').removeClass('current');
-                viewer.pageIndicators.find('.page-indicator:nth-of-type(' + (index+1) + ")").addClass('current');
+                viewer.pageIndicators.find('.bv-page-indicator.bv-current').removeClass('bv-current');
+                viewer.pageIndicators.find('.bv-page-indicator:nth-of-type(' + (index+1) + ")").addClass('bv-current');
                 viewer.pageIndicators.css("transform", "translateX(-" + (index * 100) + "%)");
                 
-                viewer.thumbnails.find('.thumbnail.current').removeClass('current');
-                viewer.thumbnails.find('.thumbnail:nth-of-type(' + (index+1) + ")").addClass('current');
+                viewer.thumbnails.find('.bv-thumbnail.bv-current').removeClass('bv-current');
+                viewer.thumbnails.find('.bv-thumbnail:nth-of-type(' + (index+1) + ")").addClass('bv-current');
                 viewer.thumbnails.css("transform", "translateX(-" + (index * 100 + 50) + "%)");
             },
             loadSlide: function(index) {
