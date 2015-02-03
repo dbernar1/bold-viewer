@@ -1,4 +1,4 @@
-#boldviewer-overlay {
+#bv-overlay {
   position: fixed;
   left: 0;
   top: 0;
@@ -7,20 +7,20 @@
   background-color: rgba(0, 0, 0, 0.9);
   z-index: 999999; }
 
-#boldviewer-wrapper {
+#bv-wrapper {
   width: 100%;
   height: 100%; }
-  #boldviewer-wrapper #boldviewer-overlays {
+  #bv-wrapper #bv-overlays {
     opacity: 1.0;
     -webkit-transition: opacity 0.2s ease;
     -spec-transition: opacity 0.2s ease;
     transition: opacity 0.2s ease; }
-  #boldviewer-wrapper.hide-overlays {
+  #bv-wrapper.bv-hide-overlays {
     cursor: none; }
-    #boldviewer-wrapper.hide-overlays #boldviewer-overlays {
+    #bv-wrapper.bv-hide-overlays #bv-overlays {
       opacity: 0.0; }
 
-#boldviewer-content {
+#bv-content {
   position: absolute;
   top: 0;
   right: 0;
@@ -28,20 +28,20 @@
   left: 0;
   overflow: hidden; }
 
-#boldviewer-content-slider {
+#bv-content-slider {
   height: 100%;
   white-space: nowrap;
   position: relative;
   -webkit-transition: transform 0.2s ease;
   -spec-transition: transform 0.2s ease;
   transition: transform 0.2s ease; }
-  #boldviewer-content-slider div.slide {
+  #bv-content-slider div.bv-slide {
     width: 100%;
     height: 100%;
     display: inline-block;
     position: relative;
     text-align: center; }
-    #boldviewer-content-slider div.slide img {
+    #bv-content-slider div.bv-slide img {
       max-height: 100%;
       max-width: 100%;
       display: block;
@@ -52,7 +52,7 @@
       transform: translate(-50%, -50%);
       position: relative; }
 
-#boldviewer-top {
+#bv-top {
   color: rgba(255, 255, 255, 0.3);
   background-color: rgba(0, 0, 0, 0.2);
   height: 50px;
@@ -66,28 +66,28 @@
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
-  #boldviewer-top:hover {
+  #bv-top:hover {
     opacity: 0.75; }
-  #boldviewer-top #boldviewer-close {
+  #bv-top #bv-close {
     float: right;
     height: 100%;
     font-size: 2rem;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.3); }
-    #boldviewer-top #boldviewer-close i {
+    #bv-top #bv-close i {
       top: 50%;
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       position: relative; }
 
-#boldviewer-bottom {
+#bv-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 100px; }
-  #boldviewer-bottom #boldviewer-bottom-tray {
+  #bv-bottom #bv-bottom-tray {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -96,9 +96,9 @@
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
     transition: transform 0.2s ease; }
-  #boldviewer-bottom:hover #boldviewer-bottom-tray {
+  #bv-bottom:hover #bv-bottom-tray {
     transform: translateY(0); }
-  #boldviewer-bottom #boldviewer-page-indicators {
+  #bv-bottom #bv-page-indicators {
     height: 20px;
     text-align: center;
     overflow-x: visible;
@@ -108,7 +108,7 @@
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
     transition: transform 0.2s ease; }
-    #boldviewer-bottom #boldviewer-page-indicators .page-indicator {
+    #bv-bottom #bv-page-indicators .bv-page-indicator {
       display: inline-block;
       margin: 0px 0px;
       top: 50%;
@@ -119,11 +119,11 @@
       color: rgba(255, 255, 255, 0.2);
       width: 16px;
       text-align: center; }
-      #boldviewer-bottom #boldviewer-page-indicators .page-indicator i {
+      #bv-bottom #bv-page-indicators .bv-page-indicator i {
         font-size: 10px; }
-      #boldviewer-bottom #boldviewer-page-indicators .page-indicator.current {
+      #bv-bottom #bv-page-indicators .bv-page-indicator.bv-current {
         color: rgba(255, 255, 255, 0.5); }
-  #boldviewer-bottom #boldviewer-thumbnails {
+  #bv-bottom #bv-thumbnails {
     text-align: center;
     position: relative;
     display: inline-block;
@@ -134,7 +134,7 @@
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
     transition: transform 0.2s ease; }
-    #boldviewer-bottom #boldviewer-thumbnails .thumbnail {
+    #bv-bottom #bv-thumbnails .bv-thumbnail {
       display: inline-block;
       box-sizing: border-box;
       width: 70px;
@@ -145,18 +145,18 @@
       background-position: 50% 50% !important;
       opacity: 0.5;
       cursor: pointer; }
-      #boldviewer-bottom #boldviewer-thumbnails .thumbnail.current {
+      #bv-bottom #bv-thumbnails .bv-thumbnail.bv-current {
         box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.5) inset; }
-      #boldviewer-bottom #boldviewer-thumbnails .thumbnail:hover {
+      #bv-bottom #bv-thumbnails .bv-thumbnail:hover {
         opacity: 0.75; }
 
-#boldviewer-prev {
+#bv-prev {
   left: 0; }
 
-#boldviewer-next {
+#bv-next {
   right: 0; }
 
-#boldviewer-prev, #boldviewer-next {
+#bv-prev, #bv-next {
   height: 25%;
   width: 7%;
   background-color: rgba(0, 0, 0, 0.2);
@@ -172,7 +172,7 @@
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
-  #boldviewer-prev i, #boldviewer-next i {
+  #bv-prev i, #bv-next i {
     font-size: 10rem;
     position: absolute;
     top: 50%;
@@ -181,10 +181,10 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
     @media screen and (max-width: 850px) {
-      #boldviewer-prev i, #boldviewer-next i {
+      #bv-prev i, #bv-next i {
         /* for screens smaller then 850px, set the font size smaller */
         font-size: 4rem; } }
-  #boldviewer-prev:hover, #boldviewer-next:hover {
+  #bv-prev:hover, #bv-next:hover {
     opacity: 0.75; }
 
 /*# sourceMappingURL=boldviewer.css.map */

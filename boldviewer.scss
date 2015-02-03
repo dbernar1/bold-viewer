@@ -36,7 +36,7 @@ $page-indicators-height: 20px;
 }
 
 //styles
-#boldviewer-overlay {
+#bv-overlay {
     position: fixed;
     left: 0;
     top: 0;
@@ -48,25 +48,25 @@ $page-indicators-height: 20px;
     z-index: 999999;
 }
 
-#boldviewer-wrapper {
+#bv-wrapper {
     width: 100%;
     height: 100%;
     
-    #boldviewer-overlays {
+    #bv-overlays {
         opacity: 1.0;
         @include transition(opacity 0.2s ease);    
     }
     
-    &.hide-overlays {
+    &.bv-hide-overlays {
         cursor: none;
         
-        #boldviewer-overlays {
+        #bv-overlays {
             opacity: 0.0;
         }
     }
 }
 
-#boldviewer-content {
+#bv-content {
     position: absolute;
     top: 0;
     right: 0;
@@ -76,13 +76,13 @@ $page-indicators-height: 20px;
 //    overflow-x: scroll;
 }
 
-#boldviewer-content-slider {
+#bv-content-slider {
     height: 100%;
     white-space: nowrap;
     position: relative;
     @include transition(transform 0.2s ease);
     
-    div.slide {
+    div.bv-slide {
         width: 100%;
         height: 100%;
         display: inline-block;
@@ -99,7 +99,7 @@ $page-indicators-height: 20px;
     }
 }
 
-#boldviewer-top {
+#bv-top {
     color: rgba(255,255,255,0.3);
     background-color: rgba(0,0,0,0.2);
     height: $top-height;
@@ -120,7 +120,7 @@ $page-indicators-height: 20px;
     
     @include transition(opacity 0.2s ease);
     
-    #boldviewer-close {
+    #bv-close {
         float: right;
         height: 100%;
         font-size: 2rem;
@@ -133,14 +133,14 @@ $page-indicators-height: 20px;
     }
 }
 
-#boldviewer-bottom {
+#bv-bottom {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: $bottom-height;
     
-    #boldviewer-bottom-tray {
+    #bv-bottom-tray {
         position: absolute;
         height: 100%;
         width: 100%;
@@ -150,12 +150,12 @@ $page-indicators-height: 20px;
     }
     
     &:hover {
-        #boldviewer-bottom-tray {
+        #bv-bottom-tray {
             transform: translateY(0);
         }
     }
     
-    #boldviewer-page-indicators {
+    #bv-page-indicators {
         height: $page-indicators-height;
         text-align: center;
         overflow-x: visible;
@@ -165,7 +165,7 @@ $page-indicators-height: 20px;
         
         @include transition(transform 0.2s ease);
         
-        .page-indicator {
+        .bv-page-indicator {
             display: inline-block;
             margin: 0px 0px;
             @include vertical-align;
@@ -177,13 +177,13 @@ $page-indicators-height: 20px;
                 font-size: 10px;
             }
             
-            &.current {
+            &.bv-current {
                 color: rgba(255,255,255,0.5);
             }
         }
     }
     
-    #boldviewer-thumbnails {
+    #bv-thumbnails {
         text-align: center;
         position: relative;
         display: inline-block;
@@ -193,7 +193,7 @@ $page-indicators-height: 20px;
         left: 50%;
         @include transition(transform 0.2s ease);
         
-        .thumbnail {
+        .bv-thumbnail {
             display: inline-block;
             box-sizing: border-box;
             
@@ -208,7 +208,7 @@ $page-indicators-height: 20px;
             opacity: 0.5;
             cursor: pointer;
             
-            &.current {
+            &.bv-current {
                 box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.5) inset;
             }
             
@@ -219,15 +219,15 @@ $page-indicators-height: 20px;
     }
 }
 
-#boldviewer-prev {
+#bv-prev {
     left: 0;
 }
 
-#boldviewer-next {
+#bv-next {
     right: 0;
 }
 
-#boldviewer-prev, #boldviewer-next {
+#bv-prev, #bv-next {
     
     height: 25%;
     width: 7%;
