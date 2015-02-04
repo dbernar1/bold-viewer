@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.1.2 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.1.3 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
