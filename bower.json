@@ -1,0 +1,16 @@
+{
+  "name": "bold-viewer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/BOLDInnovationGroup/bold-viewer",
+  "authors": [
+    "Bold Innovation Group"
+  ],
+  "description": "HTML5 jQuery image viewer by Bold Innovation Group",
+  "main": ["jquery.boldviewer.js","boldviewer.css"],
+  "keywords": [
+    "imageviewer",
+    "jquery",
+    "sass"
+  ],
+  "license": "MIT"
+}

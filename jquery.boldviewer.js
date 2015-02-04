@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.0.1-7 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.0.1-8 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
@@ -11,20 +11,19 @@
 				beforeOpen: null,
 				afterOpen: null,
 				afterClose: null,
-				loopAtEnd: false,
+                slideShown: null,
                 hideOverlayTime: 5000,
                 allowKeyboard: true,
 			},
 			
 			plugin = this,
-			elements = [], // slides array [ { href:'...', title:'...' }, ...],
 			$elem,
 			selector = elem.selector,
 			$selector = $( selector ),
             imageHtml = '<img class="content-item">',
 			/* jshint multistr: true */
 			html = '<div id="bv-overlay">\
-					<div id="bv-wrapper">\
+					<div id="bv-wrapper" tabindex="1">\
 						<div id="bv-content">\
                             <div id="bv-content-slider"></div>\
                         </div>\
@@ -47,6 +46,16 @@
             
         viewer = {
             init: function(index) {
+                
+                if(plugin.settings.beforeOpen) {
+                    plugin.settings.beforeOpen();
+                }
+                
+                var oldViewer = $('body').find("#bv-overlay");
+                if(oldViewer) {
+                    oldViewer.remove();    
+                }
+                
                 $('body').append(html);
                 
                 viewer.slider = $("#bv-content-slider");
@@ -54,7 +63,7 @@
                 viewer.thumbnails = $('#bv-thumbnails');
                 
                 $elem.each( function() {
-                    var $img = $('<div class="bv-slide"><img data-src=' + $(this).attr('href') + ">");
+                    var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + ">");
                     viewer.slider.append($img);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
@@ -66,14 +75,8 @@
                 
                 viewer.slides = viewer.slider.find(".bv-slide");
                 viewer.bindActions();
-                
-//                viewer.setSlide(index);
             },
             bindActions: function() {
-//                $('#bold-viewer-close, #bv-overlay').on('click', function() {
-//                    viewer.close();  
-//                });
-                
                 $('#bv-next').on('click', function(e) {
                     e.stopPropagation();
                     viewer.nextSlide();
@@ -98,6 +101,22 @@
                     e.stopPropagation();
                     viewer.close();
                 });
+                
+                if(plugin.settings.allowKeyboard) {
+                    $('#bv-wrapper').keydown(function (e) {
+                        e.preventDefault();
+                        
+                        if(e.which == 37) {
+                            viewer.prevSlide();   
+                        } else if(e.which == 39) {
+                            viewer.nextSlide();   
+                        } else if(e.which == 27) {
+                            viewer.close();   
+                        } else if(e.which == 36) {
+                            viewer.setSlide();   
+                        }
+                    });
+                }
             },
             handleMouseMove: function() {
                 if(viewer.mouseMoveTimer != null) {
@@ -113,6 +132,10 @@
             close: function() {
                 $('#bv-overlay').empty();
                 $('#bv-overlay').remove();
+                
+                if(plugin.settings.afterClose) {
+                   plugin.settings.afterClose();
+                }
             },
             setSlide: function(index) {
                 if(typeof index === 'undefined') {
@@ -120,7 +143,6 @@
                 }
                 
                 currentIndex = index;
-                this.loadSlide(index);
                 
                 viewer.slider.css("transform", "translateX(-" + index * 100 + "%)");
                 
@@ -131,10 +153,31 @@
                 viewer.thumbnails.find('.bv-thumbnail.bv-current').removeClass('bv-current');
                 viewer.thumbnails.find('.bv-thumbnail:nth-of-type(' + (index+1) + ")").addClass('bv-current');
                 viewer.thumbnails.css("transform", "translateX(-" + (index * 100 + 50) + "%)");
+                
+                
+                this.loadSlide(index);
+                
+//                // preload adjacent slides
+//                this.loadSlide(index-1);
+//                this.loadSlide(index+1);
+                
+//                if(plugin.settings.slideShown) {
+//                   plugin.settings.slideShown(viewer.slides[index], index);
+//                }
             },
             loadSlide: function(index) {
-                var currentSlideImg = $(viewer.slides[index]).find("img");
-                currentSlideImg.attr('src', currentSlideImg.data('src'));  
+                if(index >= 0 && index < viewer.slides.length) {
+                    var slide = $(viewer.slides[index]);
+
+                    if(slide.children().length == 0) {
+                        slide.html('<img src=' + slide.data('src') +'>');
+                    }
+                }
+            },
+            unloadSlide: function(index) {
+                if(index >= 0 && index < viewer.slides.length) {
+                    $(viewer.slides[index]).empty();
+                }
             },
             nextSlide: function() {
                 if(currentIndex < viewer.slides.length - 1) {
@@ -162,8 +205,12 @@
             $(document).on('click', selector, function (e) {
                 e.preventDefault();
                 viewer.init();
-                
                 viewer.setSlide($elem.index(this));
+                $('#bv-wrapper').focus();
+                
+                if(plugin.settings.afterOpen) {
+                    plugin.settings.afterOpen();
+                }
             });
         };
         
