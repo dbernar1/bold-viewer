@@ -7,15 +7,16 @@
   ],
   "description": "HTML5 jQuery image viewer by Bold Innovation Group",
   "main": [
-    "js/jquery.boldviewer.js",
-    "css/boldviewer.css"
+    "js/jquery.boldviewer.min.js",
+    "css/boldviewer.min.css",
+    "scss/boldviewer.scss"
   ],
   "ignore": [
-    "/*.*",
+    "/*.*"
   ],
   "keywords": [
     "image",
-    "gallery",
+    "gallery"
   ],
   "repository": {
     "type": "git",
