@@ -10,7 +10,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-git');
     grunt.loadNpmTasks('grunt-string-replace');
     
-    grunt.registerTask('default', ['githooks', 'sass', 'cssmin', 'uglify']);
+    grunt.registerTask('default', ['sass', 'cssmin', 'uglify']);
     
     grunt.initConfig({
 
