@@ -19,7 +19,7 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 files: [{
-                    'boldviewer.css': ['boldviewer.scss']
+                    'css/boldviewer.css': ['scss/boldviewer.scss']
                 }]
             }
         },
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         cssmin: {
             target: {
                 files: [{
-                    'boldviewer.min.css': ['boldviewer.css']
+                    'css/boldviewer.min.css': ['css/boldviewer.css']
                 }]
             }
         },
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'jquery.boldviewer.min.js': 'jquery.boldviewer.js',
+                    'js/jquery.boldviewer.min.js': 'js/jquery.boldviewer.js',
                 }
             }
         },
@@ -48,31 +48,12 @@ module.exports = function (grunt) {
                 options: {
                     prefix: '@version\\s*'
                 },
-                src: ['jquery.boldviewer.js', 'boldviewer.scss']
+                src: ['js/jquery.boldviewer.js', 'scss/boldviewer.scss']
             },
             project: {
-                src: ['package.json']
+                src: ['package.json', 'bower.json']
             },
         },
-        
-        'string-replace': {
-            version: {
-                files: {
-                    'jquery.boldviewer.js' : 'jquery.boldviewer.js',
-                    'jquery.boldviewer.min.js' : 'jquery.boldviewer.min.js',
-                    'boldviewer.scss' : 'boldviewer.scss',
-                    'boldviewer.css' : 'boldviewer.css',
-                    'boldviewer.min.css' : 'boldviewer.min.css'
-                },
-                options : {
-                    replacements: [{
-                        pattern: /@version\s([0-9.-]+)/,
-                        replacement: '@version <%= pkg.version %>'
-                    }]
-                }
-            }
-        },
-
         watch: {
             css: {
                 files: 'bv.scss',
@@ -86,7 +67,7 @@ module.exports = function (grunt) {
         gitadd: {
             bv: {
                 files: {
-                    src: ['package.json', 'jquery.bv.js', 'jquery.bv.min.js', 'bv.scss', 'bv.css', 'bv.min.css']
+                    src: ['package.json', 'js/jquery.boldviewer.js', 'js/jquery.boldviewer.min.js', 'scss/boldviewer.scss', 'css/boldviewer.css', 'css/boldviewer.min.css']
                 }
             }
         },

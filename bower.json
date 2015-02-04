@@ -1,16 +1,30 @@
 {
   "name": "bold-viewer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/BOLDInnovationGroup/bold-viewer",
   "authors": [
     "Bold Innovation Group"
   ],
   "description": "HTML5 jQuery image viewer by Bold Innovation Group",
-  "main": ["jquery.boldviewer.js","boldviewer.css"],
-  "keywords": [
-    "imageviewer",
-    "jquery",
-    "sass"
+  "main": [
+    "js/jquery.boldviewer.js",
+    "css/boldviewer.css"
   ],
-  "license": "MIT"
+  "ignore": [
+    "/*.*",
+  ],
+  "keywords": [
+    "image",
+    "gallery",
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:BOLDInnovationGroup/bold-viewer.git"
+  },
+  "bugs": "https://github.com/BOLDInnovationGroup/bold-viewer/issues",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "font-awesome": "~4.3.0"
+  }
 }
