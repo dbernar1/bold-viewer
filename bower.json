@@ -12,7 +12,8 @@
     "scss/boldviewer.scss"
   ],
   "ignore": [
-    "/*.*"
+    "/*.*",
+    "img/*.*"
   ],
   "keywords": [
     "image",

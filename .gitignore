@@ -1,5 +1,4 @@
 /node_modules/
-/scss-lint.log
-/npm-debug.log
+*.log
 /.sass-cache/
 /bower_components/
