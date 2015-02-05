@@ -14,13 +14,13 @@
                 slideShown: null,
                 hideOverlayTime: 5000,
                 allowKeyboard: true,
+                topItemsHtml: '',
 			},
 			
 			plugin = this,
 			$elem,
 			selector = elem.selector,
 			$selector = $( selector ),
-            imageHtml = '<img class="content-item">',
 			/* jshint multistr: true */
 			html = '<div id="bv-overlay">\
 					<div id="bv-wrapper" tabindex="1">\
@@ -30,20 +30,12 @@
                         <div id="bv-overlays">\
                             <a id="bv-prev"><i class="fa fa-angle-left"></i></a>\
                             <a id="bv-next"><i class="fa fa-angle-right"></i></a>\
-                            <div id="bv-top">\
-                                <div id="bv-top-items"></div>\
-                                <a id="bv-close"><i class="fa fa-close"></i></a>\
-                            </div>\
-                            <div id="bv-bottom">\
-                                <div id="bv-bottom-tray">\
-                                    <div id="bv-page-indicators"></div>\
-                                    <div id="bv-thumbnails"></div>\
-                                </div>\
-                            </div>\
+                            <div id="bv-bottom"><div id="bv-bottom-tray"><div id="bv-page-indicators"></div><div id="bv-thumbnails"></div></div></div>\
+                            <div id="bv-top"><div id="bv-top-items"></div><a id="bv-close"><i class="fa fa-close"></i></a></div>\
                         </div>\
 					</div>\
 			     </div>',
-            
+                     
         viewer = {
             init: function(index) {
                 
@@ -61,6 +53,7 @@
                 viewer.slider = $("#bv-content-slider");
                 viewer.pageIndicators = $('#bv-page-indicators');
                 viewer.thumbnails = $('#bv-thumbnails');
+                viewer.topItems = $('#bv-top-items');
                 
                 $elem.each( function() {
                     var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + ">");
@@ -74,6 +67,7 @@
                 });
                 
                 viewer.slides = viewer.slider.find(".bv-slide");
+                viewer.topItems.html(plugin.settings.topItemsHtml);
                 viewer.bindActions();
             },
             bindActions: function() {
@@ -104,8 +98,6 @@
                 
                 if(plugin.settings.allowKeyboard) {
                     $('#bv-wrapper').keydown(function (e) {
-                        
-                        
                         if(e.which == 37) {
                             e.preventDefault();
                             viewer.prevSlide();
@@ -178,9 +170,9 @@
                 this.loadSlide(index-1);
                 this.loadSlide(index+1);
                 
-//                if(plugin.settings.slideShown) {
-//                   plugin.settings.slideShown(viewer.slides[index], index);
-//                }
+                if(plugin.settings.slideShown) {
+                   plugin.settings.slideShown(viewer.slides[index], index);
+                }
             },
             loadSlide: function(index) {
                 if(index >= 0 && index < viewer.slides.length) {

@@ -101,7 +101,7 @@ $page-indicators-height: 20px;
 
 #bv-top {
     color: rgba(255,255,255,0.3);
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     height: $top-height;
     box-sizing: border-box;
     
@@ -109,10 +109,19 @@ $page-indicators-height: 20px;
     top: 0;
     left: 0;
     width: 100%;
-    
     padding: 10px 30px;
+    opacity: 0.3;
     
-    opacity: 0.5;
+    color: rgba(255,255,255,0.8);
+    
+    a {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        
+        &:hover {
+            color: rgba(255,255,255,0.9);   
+        }
+    }
     
     &:hover {
         opacity: 0.75;
@@ -125,11 +134,16 @@ $page-indicators-height: 20px;
         height: 100%;
         font-size: 2rem;
         cursor: pointer;
-        color: rgba(255,255,255,0.3);
         
         i {
             @include vertical-align;
         }
+    }
+    
+    #bv-top-items {
+        font-family: sans-serif;
+        display: inline-block;
+        @include vertical-align;
     }
 }
 
@@ -255,3 +269,5 @@ $page-indicators-height: 20px;
     
     @include transition(opacity 0.2s ease);
 }
+
+

@@ -54,7 +54,7 @@
 
 #bv-top {
   color: rgba(255, 255, 255, 0.3);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   height: 50px;
   box-sizing: border-box;
   position: absolute;
@@ -62,24 +62,37 @@
   left: 0;
   width: 100%;
   padding: 10px 30px;
-  opacity: 0.5;
+  opacity: 0.3;
+  color: rgba(255, 255, 255, 0.8);
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
+  #bv-top a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none; }
+    #bv-top a:hover {
+      color: rgba(255, 255, 255, 0.9); }
   #bv-top:hover {
     opacity: 0.75; }
   #bv-top #bv-close {
     float: right;
     height: 100%;
     font-size: 2rem;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.3); }
+    cursor: pointer; }
     #bv-top #bv-close i {
       top: 50%;
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       position: relative; }
+  #bv-top #bv-top-items {
+    font-family: sans-serif;
+    display: inline-block;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: relative; }
 
 #bv-bottom {
   position: absolute;

@@ -2,6 +2,7 @@
     <head title="bv Demo">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="css/boldviewer.css" rel="stylesheet">
+        <link href="css/demo.css" rel="stylesheet">
     </head>
     <body>
         
@@ -16,7 +17,22 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="js/jquery.boldviewer.js"></script>
         <script>
-            $('.boldviewer').boldviewer();
+            var topItems = "<span>\
+                                <a href='#'>Test Item 1</a>\
+                            </span>\
+                            <span>\
+                                <select>\
+                                    <option disabled selected>Test Item 2</option>\
+                                    <option>Option 1</option>\
+                                    <option>Option 2</option>\
+                                    <option>Option 3</option>\
+                                    <option>Option 4</option>\
+                                </select>\
+                            </span>";
+            
+            $('.boldviewer').boldviewer({
+                'topItemsHtml': topItems
+            });
         </script>
     </body>
 </html>
