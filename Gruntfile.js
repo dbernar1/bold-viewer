@@ -56,11 +56,11 @@ module.exports = function (grunt) {
         },
         watch: {
             css: {
-                files: 'bv.scss',
+                files: 'scss/boldviewer.scss',
                 tasks: ['sass', 'cssmin']
             },
             js: {
-                files: 'jquery.bv.js',
+                files: 'js/jquery.boldviewer.js',
                 tasks: ['uglify']
             }
         },

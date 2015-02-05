@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.1.3 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.2.0-1 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
@@ -104,16 +104,23 @@
                 
                 if(plugin.settings.allowKeyboard) {
                     $('#bv-wrapper').keydown(function (e) {
-                        e.preventDefault();
+                        
                         
                         if(e.which == 37) {
-                            viewer.prevSlide();   
+                            e.preventDefault();
+                            viewer.prevSlide();
                         } else if(e.which == 39) {
-                            viewer.nextSlide();   
+                            e.preventDefault();
+                            viewer.nextSlide();
                         } else if(e.which == 27) {
-                            viewer.close();   
+                            e.preventDefault();
+                            viewer.close();
                         } else if(e.which == 36) {
-                            viewer.setSlide();   
+                            e.preventDefault();
+                            viewer.setSlide(0);
+                        } else if(e.which == 35) {
+                            e.preventDefault();
+                            viewer.setSlide(viewer.slides.length-1);
                         }
                     });
                 }
@@ -142,7 +149,8 @@
                     index = 0;   
                 }
                 
-                currentIndex = index;
+                var previousIndex = this.currentIndex;
+                this.currentIndex = index;
                 
                 viewer.slider.css("transform", "translateX(-" + index * 100 + "%)");
                 
@@ -155,11 +163,20 @@
                 viewer.thumbnails.css("transform", "translateX(-" + (index * 100 + 50) + "%)");
                 
                 
+                if(Math.abs(previousIndex-1 - index) > 1)
+                    this.unloadSlide(previousIndex-1);
+                
+                if(Math.abs(previousIndex - index) > 1)
+                    this.unloadSlide(previousIndex);
+                
+                if(Math.abs(previousIndex+1 - index) > 1)
+                    this.unloadSlide(previousIndex+1);
+                
                 this.loadSlide(index);
                 
-//                // preload adjacent slides
-//                this.loadSlide(index-1);
-//                this.loadSlide(index+1);
+                // preload adjacent slides
+                this.loadSlide(index-1);
+                this.loadSlide(index+1);
                 
 //                if(plugin.settings.slideShown) {
 //                   plugin.settings.slideShown(viewer.slides[index], index);
@@ -180,18 +197,16 @@
                 }
             },
             nextSlide: function() {
-                if(currentIndex < viewer.slides.length - 1) {
-                    currentIndex ++;
-                    viewer.setSlide(currentIndex);
+                if(this.currentIndex < viewer.slides.length - 1) {
+                    viewer.setSlide(this.currentIndex+1);
                 }
             },
             prevSlide: function() {
-                if(currentIndex > 0) {
-                    currentIndex --;
-                    viewer.setSlide(currentIndex);
+                if(this.currentIndex > 0) {
+                    viewer.setSlide(this.currentIndex-1);
                 }
             },
-            currentIndex : 0,
+            currentIndex : -1,
             slider : null,
             slides : new Array(),
             pageIndicators: null,
