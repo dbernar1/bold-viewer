@@ -57,8 +57,16 @@
                 viewer.topItems = $('#bv-top-items');
                 
                 $elem.each( function() {
-                    var extraAttrs =  $(this).data('extraAttrs') + " " + plugin.settings.extraAttrs;
-                    var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + " " + extraAttrs + ">");
+                    var extraAttrs = $(this).data('extraAttrs')+ " " + plugin.settings.extraAttrs;
+                    var imgHTML = '<div class="bv-slide" data-src=' + $(this).attr('href') + ' ';
+                    
+                    if(extraAttrs) {
+                        imgHTML += extraAttrs;
+                    }
+                    
+                    imgHTML += ">";
+                    
+                    var $img = $(imgHTML);
                     viewer.slider.append($img);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
