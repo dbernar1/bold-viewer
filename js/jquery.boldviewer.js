@@ -85,7 +85,7 @@
                     e.stopPropagation();
                     viewer.nextSlide();
                     if(plugin.settings.hideOverlayTime > 0) {
-                        this.resetOverlayTimer();
+                        viewer.resetOverlayTimer();
                     }
                 });
                 
@@ -93,12 +93,12 @@
                     e.stopPropagation();
                     viewer.prevSlide();
                     if(plugin.settings.hideOverlayTime > 0) {
-                        this.resetOverlayTimer();
+                        viewer.resetOverlayTimer();
                     }
                 });
                 
                 if(plugin.settings.hideOverlayTime > 0) {
-                    $('#bv-wrapper').mousemove(this.resetOverlayTimer);
+                    $('#bv-wrapper').mousemove(viewer.resetOverlayTimer);
                 }
                 
                 $('.bv-thumbnail').on('click', function(e) {
@@ -107,7 +107,7 @@
                     viewer.setSlide(viewer.thumbnails.find('.bv-thumbnail').index(this));
                     
                     if(plugin.settings.hideOverlayTime > 0) {
-                        this.resetOverlayTimer();
+                        viewer.resetOverlayTimer();
                     }
                 });
                 
