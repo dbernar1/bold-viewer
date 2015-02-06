@@ -144,7 +144,7 @@
                 
                 $('#bv-wrapper').removeClass('bv-hide-overlays');
                 
-                viewer.mouseMoveTimer = setTimeout(function () {
+                viewer.overlayTimer = setTimeout(function () {
                     $('#bv-wrapper').addClass('bv-hide-overlays');
                 }, plugin.settings.hideOverlayTime);
             },
