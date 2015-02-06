@@ -15,6 +15,7 @@
                 hideOverlayTime: 5000,
                 allowKeyboard: true,
                 topItemsHtml: '',
+                extraAttrs: ''
 			},
 			
 			plugin = this,
@@ -56,7 +57,8 @@
                 viewer.topItems = $('#bv-top-items');
                 
                 $elem.each( function() {
-                    var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + ">");
+                    var extraAttrs =  $(this).data('extraAttrs') + " " + plugin.settings.extraAttrs;
+                    var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + " " + extraAttrs + ">");
                     viewer.slider.append($img);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
