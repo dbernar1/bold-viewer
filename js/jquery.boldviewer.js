@@ -57,7 +57,7 @@
                 viewer.topItems = $('#bv-top-items');
                 
                 $elem.each( function() {
-                    var extraAttrs = $(this).data('extraAttrs')+ " " + plugin.settings.extraAttrs;
+                    var extraAttrs = $(this).data('extra-attrs') + " " + plugin.settings.extraAttrs;
                     var imgHTML = '<div class="bv-slide" data-src=' + $(this).attr('href') + ' ';
                     
                     if(extraAttrs) {
