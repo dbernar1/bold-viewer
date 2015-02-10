@@ -144,9 +144,15 @@
                 
                 $('#bv-wrapper').removeClass('bv-hide-overlays');
                 
-                viewer.overlayTimer = setTimeout(function () {
-                    $('#bv-wrapper').addClass('bv-hide-overlays');
-                }, plugin.settings.hideOverlayTime);
+                if(plugin.settings.hideOverlayTime > 0) {
+                    viewer.overlayTimer = setTimeout(function () {
+                        
+                        //overlay hiding could have been disabled while waiting for the timeout
+                        if(plugin.settings.hideOverlayTime > 0) {
+                            $('#bv-wrapper').addClass('bv-hide-overlays');
+                        }
+                    }, plugin.settings.hideOverlayTime);
+                }
             },
             close: function() {
                 $('#bv-overlay').empty();
