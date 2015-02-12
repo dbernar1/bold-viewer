@@ -136,6 +136,65 @@
                         }
                     });
                 }
+                
+                $('#bv-content-slider').mousedown(function (e) {
+                    e.preventDefault();
+                    
+                    viewer.startDrag(this, e);
+                });
+                
+                $('#bv-content-slider').mouseup(function (e) {
+                    viewer.stopDrag(this);
+                });
+                
+                $('#bv-content-slider').mouseleave(function (e) {
+                    viewer.stopDrag(this);
+                });
+                
+                $('#bv-content-slider').mousemove(function (e) {
+                    $this = $(this);
+                    
+                    if($this.data('dragging')) {
+                        var xDiff = e.pageX - $this.data('mouseX');
+                        var style = window.getComputedStyle($this.get(0));  // Need the DOM object
+                        var matrix = new WebKitCSSMatrix(style.webkitTransform);
+                        var currentTranslateX = matrix.m41;
+                        
+                        $this.css('transform',  "translateX(" + (currentTranslateX + xDiff) + "px)")
+                        $this.data('mouseX', e.pageX);
+                    }
+                });
+            },
+            startDrag: function(elem, event) {
+                $this = $(elem);
+                $this.data('dragging', true);
+                $this.data('mouseX', event.pageX);
+                $this.data('old-transition-duration', $this.css('transition-duration'));
+                $this.data('old-webkit-transition-duration', $this.css('-webkit-transition-duration'));
+                $this.css('-webkit-transition-duration', '0s');
+                $this.css('transition-duration', '0s');
+            },
+            stopDrag: function(elem) {
+                $this = $(elem);
+                $this.data('dragging', false);
+                $this.data('mouseX', '');
+                $this.css('-webkit-transition-duration', $this.data('old-webkit-transition-duration'));
+                
+                //figure out what slide to go to
+                var style = window.getComputedStyle($this.get(0));  // Need the DOM object
+                var matrix = new WebKitCSSMatrix(style.webkitTransform);
+                var currentTranslateX = matrix.m41;
+                
+                var pageWidth = $this.width();
+                var page = Math.round((Math.abs(currentTranslateX)) / $this.width())
+                
+                if(page >= viewer.slides.length) {
+                    page = viewer.slides.length -1;
+                } else if (page < 0) {
+                    page = 0;
+                }
+                
+                viewer.setSlide(page);
             },
             resetOverlayTimer: function() {
                 if(viewer.overlayTimer != null) {

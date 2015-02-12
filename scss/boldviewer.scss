@@ -4,6 +4,8 @@
 $top-height: 50px;
 $bottom-height: 100px;
 $page-indicators-height: 20px;
+$mobile-page-indicators-height: 40px;
+$mobile-bottom-height: 120px;
 
 //mixins
 @mixin vertical-align {
@@ -83,6 +85,8 @@ $page-indicators-height: 20px;
     position: relative;
     @include transition(transform 0.2s ease);
     -webkit-transition: -webkit-transform 0.2s ease;
+    transition-delay: none;
+    -webkit-transition-delay: none;
     
     div.bv-slide {
         width: 100%;
@@ -263,13 +267,9 @@ $page-indicators-height: 20px;
     position: absolute;
     
     i {
-        font-size: 10rem;
+        font-size: 7rem;
         position: absolute;
         @include centerXY;
-        
-        @media screen and (max-width: 850px){/* for screens smaller then 850px, set the font size smaller */
-           font-size: 4rem;
-        }
     }
     
     &:hover {
@@ -279,4 +279,44 @@ $page-indicators-height: 20px;
     @include transition(opacity 0.2s ease);
 }
 
+@media (max-width: 850px){
+    #bv-prev, #bv-next {
+        width: 15%;
+        
+        i {
+            font-size: 8rem;
+        }
+    }
+    
+    #bv-bottom {
+        height: $mobile-bottom-height;
+        
+        #bv-bottom-tray {
+            transform: translateY($mobile-bottom-height - $mobile-page-indicators-height);
+            -webkit-transform: translateY($mobile-bottom-height - $mobile-page-indicators-height);
+        }
+        
+        #bv-page-indicators {
+            height: $mobile-page-indicators-height;
+            width: 24px;
+            
+            .bv-page-indicator {
+                width: 24px;
+                
+                i {
+                    font-size: 15px;
+                }
+            }
+        }
+        
+        #bv-thumbnails {
+            width: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25) + 10px;
+            
+            .bv-thumbnail {
+                width: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25);
+                height: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25);
+            }
+        }
+    }
+}
 
