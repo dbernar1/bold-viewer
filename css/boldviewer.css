@@ -15,7 +15,12 @@
     opacity: 1.0;
     -webkit-transition: opacity 0.2s ease;
     -spec-transition: opacity 0.2s ease;
-    transition: opacity 0.2s ease; }
+    transition: opacity 0.2s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0; }
   #bv-wrapper.bv-hide-overlays {
     cursor: none; }
     #bv-wrapper.bv-hide-overlays #bv-overlays {

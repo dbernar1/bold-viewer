@@ -137,32 +137,22 @@
                     });
                 }
                 
-                $('#bv-content-slider').mousedown(function (e) {
+                $('#bv-overlays').mousedown(function (e) {
                     e.preventDefault();
+                    viewer.startDrag($('#bv-content-slider'), e);
+                });
+                
+                $('#bv-overlays').mouseup(function (e) {
+                    viewer.stopDrag($('#bv-content-slider'));
+                });
+                
+                $('#bv-overlays').mouseleave(function (e) {
+                    viewer.stopDrag($('#bv-content-slider'));
+                });
+                
+                $('#bv-overlays').mousemove(function (e) {
+                    viewer.doDrag($('#bv-content-slider'), e);
                     
-                    viewer.startDrag(this, e);
-                });
-                
-                $('#bv-content-slider').mouseup(function (e) {
-                    viewer.stopDrag(this);
-                });
-                
-                $('#bv-content-slider').mouseleave(function (e) {
-                    viewer.stopDrag(this);
-                });
-                
-                $('#bv-content-slider').mousemove(function (e) {
-                    $this = $(this);
-                    
-                    if($this.data('dragging')) {
-                        var xDiff = e.pageX - $this.data('mouseX');
-                        var style = window.getComputedStyle($this.get(0));  // Need the DOM object
-                        var matrix = new WebKitCSSMatrix(style.webkitTransform);
-                        var currentTranslateX = matrix.m41;
-                        
-                        $this.css('transform',  "translateX(" + (currentTranslateX + xDiff) + "px)")
-                        $this.data('mouseX', e.pageX);
-                    }
                 });
             },
             startDrag: function(elem, event) {
@@ -195,6 +185,18 @@
                 }
                 
                 viewer.setSlide(page);
+            },
+            doDrag: function(elem, event) {
+                $this = $(elem);
+                if($this.data('dragging')) {
+                    var xDiff = event.pageX - $this.data('mouseX');
+                    var style = window.getComputedStyle($this.get(0));  // Need the DOM object
+                    var matrix = new WebKitCSSMatrix(style.webkitTransform);
+                    var currentTranslateX = matrix.m41;
+
+                    $this.css('transform',  "translateX(" + (currentTranslateX + xDiff) + "px)")
+                    $this.data('mouseX', event.pageX);
+                }
             },
             resetOverlayTimer: function() {
                 if(viewer.overlayTimer != null) {
