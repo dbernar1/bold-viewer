@@ -82,6 +82,7 @@ $page-indicators-height: 20px;
     white-space: nowrap;
     position: relative;
     @include transition(transform 0.2s ease);
+    -webkit-transition: -webkit-transform 0.2s ease;
     
     div.bv-slide {
         width: 100%;
@@ -161,13 +162,17 @@ $page-indicators-height: 20px;
         height: 100%;
         width: 100%;
         transform: translateY($bottom-height - $page-indicators-height);
+        -webkit-transform: translateY($bottom-height - $page-indicators-height);
+        
         background-color: rgba(0,0,0,0.5);
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
     }
     
     &:hover {
         #bv-bottom-tray {
             transform: translateY(0);
+            -webkit-transform: translateY(0);
         }
     }
     
@@ -180,6 +185,7 @@ $page-indicators-height: 20px;
         margin: 0px auto;
         
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
         
         .bv-page-indicator {
             display: inline-block;
@@ -208,6 +214,7 @@ $page-indicators-height: 20px;
         width: $bottom-height - ($page-indicators-height * 1.5) + 10px;
         left: 50%;
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
         
         .bv-thumbnail {
             display: inline-block;
