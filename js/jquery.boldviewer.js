@@ -137,35 +137,35 @@
                     });
                 }
                 
-                $('#bv-overlays').mousedown(function (e) {
-                    e.preventDefault();
+                $('#bv-overlays')[0].addEventListener('touchstart', function (e) {
+//                    e.preventDefault();
                     viewer.startDrag($('#bv-content-slider'), e);
-                });
+                }, false);
                 
-                $('#bv-overlays').mouseup(function (e) {
+                $('#bv-overlays')[0].addEventListener('touchend', function (e) {
                     viewer.stopDrag($('#bv-content-slider'));
-                });
+                }, false);
                 
-                $('#bv-overlays').mouseleave(function (e) {
+                $('#bv-overlays')[0].addEventListener('touchcancel', function (e) {
                     viewer.stopDrag($('#bv-content-slider'));
-                });
+                }, false);
                 
-                $('#bv-overlays').mousemove(function (e) {
+                $('#bv-overlays')[0].addEventListener('touchmove', function (e) {
                     viewer.doDrag($('#bv-content-slider'), e);
                     
-                });
+                }, false);
             },
             startDrag: function(elem, event) {
-                $this = $(elem);
+                $this = elem;
                 $this.data('dragging', true);
-                $this.data('mouseX', event.pageX);
+                $this.data('mouseX', event.touches[0].pageX);
                 $this.data('old-transition-duration', $this.css('transition-duration'));
                 $this.data('old-webkit-transition-duration', $this.css('-webkit-transition-duration'));
                 $this.css('-webkit-transition-duration', '0s');
                 $this.css('transition-duration', '0s');
             },
             stopDrag: function(elem) {
-                $this = $(elem);
+                $this = elem;
                 $this.data('dragging', false);
                 $this.data('mouseX', '');
                 $this.css('-webkit-transition-duration', $this.data('old-webkit-transition-duration'));
@@ -187,15 +187,15 @@
                 viewer.setSlide(page);
             },
             doDrag: function(elem, event) {
-                $this = $(elem);
+                $this = elem;
                 if($this.data('dragging')) {
-                    var xDiff = event.pageX - $this.data('mouseX');
+                    var xDiff = event.touches[0].pageX - $this.data('mouseX');
                     var style = window.getComputedStyle($this.get(0));  // Need the DOM object
                     var matrix = new WebKitCSSMatrix(style.webkitTransform);
                     var currentTranslateX = matrix.m41;
 
                     $this.css('transform',  "translateX(" + (currentTranslateX + xDiff) + "px)")
-                    $this.data('mouseX', event.pageX);
+                    $this.data('mouseX', event.touches[0].pageX);
                 }
             },
             resetOverlayTimer: function() {
