@@ -79,6 +79,8 @@
                 viewer.slides = viewer.slider.find(".bv-slide");
                 viewer.topItems.html(plugin.settings.topItemsHtml);
                 viewer.bindActions();
+                
+                $('html').css('overflow', 'hidden');
             },
             bindActions: function() {
                 $('#bv-next').on('click', function(e) {
@@ -176,7 +178,7 @@
                 var currentTranslateX = matrix.m41;
                 
                 var pageWidth = $this.width();
-                var page = Math.round((Math.abs(currentTranslateX)) / $this.width())
+                var page = Math.round(-currentTranslateX / $this.width())
                 
                 if(page >= viewer.slides.length) {
                     page = viewer.slides.length -1;
@@ -218,6 +220,7 @@
             close: function() {
                 $('#bv-overlay').empty();
                 $('#bv-overlay').remove();
+                $('html').css('overflow', 'scroll');
                 
                 if(plugin.settings.afterClose) {
                    plugin.settings.afterClose();
