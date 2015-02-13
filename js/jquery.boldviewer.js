@@ -15,7 +15,8 @@
                 hideOverlayTime: 5000,
                 allowKeyboard: true,
                 topItemsHtml: '',
-                extraAttrs: ''
+                extraAttrs: '',
+                allowTouch: true,
 			},
 			
 			plugin = this,
@@ -139,23 +140,33 @@
                     });
                 }
                 
-                $('#bv-overlays')[0].addEventListener('touchstart', function (e) {
-//                    e.preventDefault();
-                    viewer.startDrag($('#bv-content-slider'), e);
-                }, false);
-                
-                $('#bv-overlays')[0].addEventListener('touchend', function (e) {
-                    viewer.stopDrag($('#bv-content-slider'));
-                }, false);
-                
-                $('#bv-overlays')[0].addEventListener('touchcancel', function (e) {
-                    viewer.stopDrag($('#bv-content-slider'));
-                }, false);
-                
-                $('#bv-overlays')[0].addEventListener('touchmove', function (e) {
-                    viewer.doDrag($('#bv-content-slider'), e);
-                    
-                }, false);
+                if(plugin.settings.allowTouch) {
+                    $('#bv-overlays')[0].addEventListener('touchstart', function (e) {
+//                        e.preventDefault();
+                        //check incase the setting has changed since attaching the listener
+                        if(plugin.settings.allowTouch) {
+                            viewer.startDrag($('#bv-content-slider'), e);
+                        }
+                    }, false);
+
+                    $('#bv-overlays')[0].addEventListener('touchend', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.stopDrag($('#bv-content-slider'));
+                        }
+                    }, false);
+
+                    $('#bv-overlays')[0].addEventListener('touchcancel', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.stopDrag($('#bv-content-slider'));
+                        }
+                    }, false);
+
+                    $('#bv-overlays')[0].addEventListener('touchmove', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.doDrag($('#bv-content-slider'), e);
+                        }
+                    }, false);
+                }
             },
             startDrag: function(elem, event) {
                 $this = elem;
