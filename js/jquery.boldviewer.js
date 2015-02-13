@@ -17,6 +17,11 @@
                 topItemsHtml: '',
                 extraAttrs: '',
                 allowTouch: true,
+                type: 'image',
+                videoSize: {
+                    width: 640,
+                    height: 360
+                }
 			},
 			
 			plugin = this,
@@ -60,9 +65,14 @@
                 $elem.each( function() {
                     var extraAttrs = $(this).data('extra-attrs') + " " + plugin.settings.extraAttrs;
                     var imgHTML = '<div class="bv-slide" data-src=' + $(this).attr('href') + ' ';
+                    var type = $(this).data('type');
                     
                     if(extraAttrs) {
                         imgHTML += extraAttrs;
+                    }
+                    
+                    if(type) {
+                        imgHTML += "data-type='" + type + "' ";    
                     }
                     
                     imgHTML += "><i class='spinner fa fa-circle-o-notch fa-spin'></i></div>";
@@ -281,8 +291,18 @@
 
                     if(slide.children().length == 1) {
                         slide.find('.spinner').css("display", "block");
-                        slide.append('<img src=' + slide.data('src') +'>');
-                        slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
+                        
+                        var type = slide.data('type') ? slide.data('type') : plugin.settings.type;
+                        
+                        if(type.indexOf('image') >= 0) {
+                            slide.append('<img src=' + slide.data('src') +'>');
+                            slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
+                        } else if(type.indexOf('video') >= 0) {
+                            slide.append('<video width="' + plugin.settings.videoSize.width +'" height="' + plugin.settings.videoSize.height +'" controls="">\
+                                <source src="' + slide.data('src') + '" type="' + type + '">\
+                                Your browser does not support the video tag.\
+                                </video>');
+                        }
                     }
                 }
             },
