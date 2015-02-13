@@ -65,10 +65,10 @@
                         imgHTML += extraAttrs;
                     }
                     
-                    imgHTML += ">";
+                    imgHTML += "><i class='spinner fa fa-circle-o-notch fa-spin'></i></div>";
                     
-                    var $img = $(imgHTML);
-                    viewer.slider.append($img);
+//                    var $img = $(imgHTML);
+                    viewer.slider.append(imgHTML);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
                     viewer.pageIndicators.append($pageIndicator);
@@ -279,15 +279,24 @@
                 if(index >= 0 && index < viewer.slides.length) {
                     var slide = $(viewer.slides[index]);
 
-                    if(slide.children().length == 0) {
-                        slide.html('<img src=' + slide.data('src') +'>');
+                    if(slide.children().length == 1) {
+                        slide.find('.spinner').css("display", "block");
+                        slide.append('<img src=' + slide.data('src') +'>');
+                        slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
                     }
                 }
             },
             unloadSlide: function(index) {
                 if(index >= 0 && index < viewer.slides.length) {
-                    $(viewer.slides[index]).empty();
+                    var slide = $(viewer.slides[index]);
+                    slide.find('img').remove();
+                    slide.find('.spinner').css("display", "none");
                 }
+            },
+            handleImageLoaded: function() {
+                var $this = $(this);
+                $this.siblings('.spinner').css('display', 'none');
+                $this.removeClass('loading');
             },
             nextSlide: function() {
                 if(this.currentIndex < viewer.slides.length - 1) {
