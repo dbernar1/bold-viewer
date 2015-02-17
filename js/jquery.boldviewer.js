@@ -271,7 +271,7 @@
                     if (previousSlide.data('type') && previousSlide.data('type').indexOf('video') >= 0) {
                         var video = previousSlide.find('video');
                         
-                        if(video) {
+                        if(video.length > 0) {
                             video[0].pause();
                             video[0].currentTime = 0;
                         }
@@ -320,7 +320,7 @@
                     } else if (type.indexOf('video') >= 0) {
                         var video = slide.find('video');
                         
-                        if(video) {
+                        if(video.length > 0) {
                             video[0].currentTime = 0;
                         }
                     }
