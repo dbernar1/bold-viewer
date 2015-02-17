@@ -151,7 +151,7 @@
                 }
                 
                 if(plugin.settings.allowTouch) {
-                    $('#bv-overlays')[0].addEventListener('touchstart', function (e) {
+                    $('#bv-content')[0].addEventListener('touchstart', function (e) {
 //                        e.preventDefault();
                         //check incase the setting has changed since attaching the listener
                         if(plugin.settings.allowTouch) {
@@ -159,19 +159,19 @@
                         }
                     }, false);
 
-                    $('#bv-overlays')[0].addEventListener('touchend', function (e) {
+                    $('#bv-content')[0].addEventListener('touchend', function (e) {
                         if(plugin.settings.allowTouch) {
                             viewer.stopDrag($('#bv-content-slider'));
                         }
                     }, false);
 
-                    $('#bv-overlays')[0].addEventListener('touchcancel', function (e) {
+                    $('#bv-content')[0].addEventListener('touchcancel', function (e) {
                         if(plugin.settings.allowTouch) {
                             viewer.stopDrag($('#bv-content-slider'));
                         }
                     }, false);
 
-                    $('#bv-overlays')[0].addEventListener('touchmove', function (e) {
+                    $('#bv-content')[0].addEventListener('touchmove', function (e) {
                         if(plugin.settings.allowTouch) {
                             viewer.doDrag($('#bv-content-slider'), e);
                         }
@@ -265,6 +265,14 @@
                 viewer.thumbnails.find('.bv-thumbnail:nth-of-type(' + (index+1) + ")").addClass('bv-current');
                 viewer.thumbnails.css("transform", "translateX(-" + (index * 100 + 50) + "%)");
                 
+                //check if previous slide was a video so we can stop it
+                if(previousIndex != -1) {
+                    var previousSlide = $(viewer.slides[previousIndex]);
+                    if (previousSlide.data('type') && previousSlide.data('type').indexOf('video') >= 0) {
+                        previousSlide.find('video')[0].pause();
+                        previousSlide.find('video')[0].currentTime = 0;;
+                    }
+                }
                 
                 if(Math.abs(previousIndex-1 - index) > 1)
                     this.unloadSlide(previousIndex-1);
@@ -288,21 +296,28 @@
             loadSlide: function(index) {
                 if(index >= 0 && index < viewer.slides.length) {
                     var slide = $(viewer.slides[index]);
-
+                    var type = slide.data('type') ? slide.data('type') : plugin.settings.type;
+                    
                     if(slide.children().length == 1) {
                         slide.find('.spinner').css("display", "block");
                         
-                        var type = slide.data('type') ? slide.data('type') : plugin.settings.type;
+                        
                         
                         if(type.indexOf('image') >= 0) {
                             slide.append('<img src=' + slide.data('src') +'>');
                             slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
                         } else if(type.indexOf('video') >= 0) {
-                            slide.append('<video width="' + plugin.settings.videoSize.width +'" height="' + plugin.settings.videoSize.height +'" controls="">\
+                            slide.append('<video controls>\
                                 <source src="' + slide.data('src') + '" type="' + type + '">\
                                 Your browser does not support the video tag.\
                                 </video>');
+                            var video = slide.find('video');
+                            video.addClass('loading').on('loadeddata', viewer.handleImageLoaded);
+                            video[0].load();
                         }
+                    } else if (type.indexOf('video') >= 0) {
+                        var video = slide.find('video');
+                        video[0].currentTime = 0;
                     }
                 }
             },
@@ -310,6 +325,7 @@
                 if(index >= 0 && index < viewer.slides.length) {
                     var slide = $(viewer.slides[index]);
                     slide.find('img').remove();
+                    slide.find('video').remove();
                     slide.find('.spinner').css("display", "none");
                 }
             },
