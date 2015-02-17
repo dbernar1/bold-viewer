@@ -269,8 +269,12 @@
                 if(previousIndex != -1) {
                     var previousSlide = $(viewer.slides[previousIndex]);
                     if (previousSlide.data('type') && previousSlide.data('type').indexOf('video') >= 0) {
-                        previousSlide.find('video')[0].pause();
-                        previousSlide.find('video')[0].currentTime = 0;;
+                        var video = previousSlide.find('video');
+                        
+                        if(video) {
+                            video[0].pause();
+                            video[0].currentTime = 0;
+                        }
                     }
                 }
                 
@@ -301,8 +305,6 @@
                     if(slide.children().length == 1) {
                         slide.find('.spinner').css("display", "block");
                         
-                        
-                        
                         if(type.indexOf('image') >= 0) {
                             slide.append('<img src=' + slide.data('src') +'>');
                             slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
@@ -317,7 +319,10 @@
                         }
                     } else if (type.indexOf('video') >= 0) {
                         var video = slide.find('video');
-                        video[0].currentTime = 0;
+                        
+                        if(video) {
+                            video[0].currentTime = 0;
+                        }
                     }
                 }
             },
