@@ -77,7 +77,6 @@
                     
                     imgHTML += "><i class='spinner fa fa-circle-o-notch fa-spin'></i></div>";
                     
-//                    var $img = $(imgHTML);
                     viewer.slider.append(imgHTML);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
@@ -152,7 +151,7 @@
                 
                 if(plugin.settings.allowTouch) {
                     $('#bv-content')[0].addEventListener('touchstart', function (e) {
-//                        e.preventDefault();
+
                         //check incase the setting has changed since attaching the listener
                         if(plugin.settings.allowTouch) {
                             viewer.startDrag($('#bv-content-slider'), e);
