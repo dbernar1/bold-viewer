@@ -176,10 +176,6 @@
                         }
                     }, false);
                 }
-                
-                $(window).on('popstate', function(e){
-                    viewer.close();
-                });
             },
             startDrag: function(elem, event) {
                 $this = elem;
