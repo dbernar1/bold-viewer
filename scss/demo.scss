@@ -1,0 +1,22 @@
+#bv-top-items {
+    span {
+        margin: 0 5px;
+        font-size: 14px;
+    }
+}
+select {
+    border-radius: 0;
+    background: none;
+    border: 0;
+    color: rgba(255,255,255,0.8);
+    outline: none;
+    font-size: 14px;
+    
+    &:hover {
+        color: rgba(255,255,255,0.9);   
+    }
+    
+    option {
+        background: none;
+    }
+}

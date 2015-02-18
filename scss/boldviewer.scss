@@ -4,6 +4,8 @@
 $top-height: 50px;
 $bottom-height: 100px;
 $page-indicators-height: 20px;
+$mobile-page-indicators-height: 40px;
+$mobile-bottom-height: 120px;
 
 //mixins
 @mixin vertical-align {
@@ -51,10 +53,21 @@ $page-indicators-height: 20px;
 #bv-wrapper {
     width: 100%;
     height: 100%;
+    outline: none;
     
     #bv-overlays {
         opacity: 1.0;
-        @include transition(opacity 0.2s ease);    
+        @include transition(opacity 0.2s ease);
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+    
+        * {
+            pointer-events: auto;    
+        }
     }
     
     &.bv-hide-overlays {
@@ -73,7 +86,6 @@ $page-indicators-height: 20px;
     bottom: 0;
     left: 0;
     overflow: hidden;
-//    overflow-x: scroll;
 }
 
 #bv-content-slider {
@@ -81,6 +93,9 @@ $page-indicators-height: 20px;
     white-space: nowrap;
     position: relative;
     @include transition(transform 0.2s ease);
+    -webkit-transition: -webkit-transform 0.2s ease;
+    transition-delay: none;
+    -webkit-transition-delay: none;
     
     div.bv-slide {
         width: 100%;
@@ -89,19 +104,39 @@ $page-indicators-height: 20px;
         position: relative;
         text-align: center;
         
-        img {
+        img, video {
             max-height: 100%;
             max-width: 100%;
             display: block;
             @include centerXY;
             position: relative;
+            
+            &.loading {
+                opacity: 0;   
+            }
+            
+            @include transition(opacity 0.2s, ease);
+        }
+        
+        video {
+            max-height: 75%;   
+        }
+        
+        .spinner {
+            display: none;
+            color: rgba(255,255,255,0.12);
+            font-size: 5rem;
+            margin-left: -2.5rem;
+            margin-top: -2.5rem;
+            position: absolute;
+            @include centerXY;
         }
     }
 }
 
 #bv-top {
     color: rgba(255,255,255,0.3);
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     height: $top-height;
     box-sizing: border-box;
     
@@ -109,10 +144,19 @@ $page-indicators-height: 20px;
     top: 0;
     left: 0;
     width: 100%;
-    
     padding: 10px 30px;
+    opacity: 0.3;
     
-    opacity: 0.5;
+    color: rgba(255,255,255,0.8);
+    
+    a {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        
+        &:hover {
+            color: rgba(255,255,255,0.9);   
+        }
+    }
     
     &:hover {
         opacity: 0.75;
@@ -125,11 +169,16 @@ $page-indicators-height: 20px;
         height: 100%;
         font-size: 2rem;
         cursor: pointer;
-        color: rgba(255,255,255,0.3);
         
         i {
             @include vertical-align;
         }
+    }
+    
+    #bv-top-items {
+        font-family: sans-serif;
+        display: inline-block;
+        @include vertical-align;
     }
 }
 
@@ -139,19 +188,24 @@ $page-indicators-height: 20px;
     left: 0;
     right: 0;
     height: $bottom-height;
+    overflow: hidden;
     
     #bv-bottom-tray {
         position: absolute;
         height: 100%;
         width: 100%;
         transform: translateY($bottom-height - $page-indicators-height);
+        -webkit-transform: translateY($bottom-height - $page-indicators-height);
+        
         background-color: rgba(0,0,0,0.5);
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
     }
     
     &:hover {
         #bv-bottom-tray {
             transform: translateY(0);
+            -webkit-transform: translateY(0);
         }
     }
     
@@ -164,6 +218,7 @@ $page-indicators-height: 20px;
         margin: 0px auto;
         
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
         
         .bv-page-indicator {
             display: inline-block;
@@ -192,6 +247,7 @@ $page-indicators-height: 20px;
         width: $bottom-height - ($page-indicators-height * 1.5) + 10px;
         left: 50%;
         @include transition(transform 0.2s ease);
+        -webkit-transition: -webkit-transform 0.2s ease;
         
         .bv-thumbnail {
             display: inline-block;
@@ -240,13 +296,9 @@ $page-indicators-height: 20px;
     position: absolute;
     
     i {
-        font-size: 10rem;
+        font-size: 7rem;
         position: absolute;
         @include centerXY;
-        
-        @media screen and (max-width: 850px){/* for screens smaller then 850px, set the font size smaller */
-           font-size: 4rem;
-        }
     }
     
     &:hover {
@@ -255,3 +307,45 @@ $page-indicators-height: 20px;
     
     @include transition(opacity 0.2s ease);
 }
+
+@media (max-width: 850px){
+    #bv-prev, #bv-next {
+        width: 15%;
+        
+        i {
+            font-size: 8rem;
+        }
+    }
+    
+    #bv-bottom {
+        height: $mobile-bottom-height;
+        
+        #bv-bottom-tray {
+            transform: translateY($mobile-bottom-height - $mobile-page-indicators-height);
+            -webkit-transform: translateY($mobile-bottom-height - $mobile-page-indicators-height);
+        }
+        
+        #bv-page-indicators {
+            height: $mobile-page-indicators-height;
+            width: 24px;
+            
+            .bv-page-indicator {
+                width: 24px;
+                
+                i {
+                    font-size: 15px;
+                }
+            }
+        }
+        
+        #bv-thumbnails {
+            width: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25) + 10px;
+            
+            .bv-thumbnail {
+                width: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25);
+                height: $mobile-bottom-height - ($mobile-page-indicators-height * 1.25);
+            }
+        }
+    }
+}
+

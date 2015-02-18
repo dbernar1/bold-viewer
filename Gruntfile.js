@@ -19,7 +19,8 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 files: [{
-                    'css/boldviewer.css': ['scss/boldviewer.scss']
+                    'css/boldviewer.css': ['scss/boldviewer.scss'],
+                    'css/demo.css': ['scss/demo.scss']
                 }]
             }
         },
@@ -56,11 +57,11 @@ module.exports = function (grunt) {
         },
         watch: {
             css: {
-                files: 'bv.scss',
+                files: ['scss/boldviewer.scss', 'scss/demo.scss'],
                 tasks: ['sass', 'cssmin']
             },
             js: {
-                files: 'jquery.bv.js',
+                files: 'js/jquery.boldviewer.js',
                 tasks: ['uglify']
             }
         },

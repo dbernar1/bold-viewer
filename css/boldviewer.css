@@ -9,12 +9,21 @@
 
 #bv-wrapper {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  outline: none; }
   #bv-wrapper #bv-overlays {
     opacity: 1.0;
     -webkit-transition: opacity 0.2s ease;
     -spec-transition: opacity 0.2s ease;
-    transition: opacity 0.2s ease; }
+    transition: opacity 0.2s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none; }
+    #bv-wrapper #bv-overlays * {
+      pointer-events: auto; }
   #bv-wrapper.bv-hide-overlays {
     cursor: none; }
     #bv-wrapper.bv-hide-overlays #bv-overlays {
@@ -34,14 +43,17 @@
   position: relative;
   -webkit-transition: transform 0.2s ease;
   -spec-transition: transform 0.2s ease;
-  transition: transform 0.2s ease; }
+  transition: transform 0.2s ease;
+  -webkit-transition: -webkit-transform 0.2s ease;
+  transition-delay: none;
+  -webkit-transition-delay: none; }
   #bv-content-slider div.bv-slide {
     width: 100%;
     height: 100%;
     display: inline-block;
     position: relative;
     text-align: center; }
-    #bv-content-slider div.bv-slide img {
+    #bv-content-slider div.bv-slide img, #bv-content-slider div.bv-slide video {
       max-height: 100%;
       max-width: 100%;
       display: block;
@@ -50,11 +62,30 @@
       -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
-      position: relative; }
+      position: relative;
+      -webkit-transition: opacity 0.2s, ease;
+      -spec-transition: opacity 0.2s, ease;
+      transition: opacity 0.2s, ease; }
+      #bv-content-slider div.bv-slide img.loading, #bv-content-slider div.bv-slide video.loading {
+        opacity: 0; }
+    #bv-content-slider div.bv-slide video {
+      max-height: 75%; }
+    #bv-content-slider div.bv-slide .spinner {
+      display: none;
+      color: rgba(255, 255, 255, 0.12);
+      font-size: 5rem;
+      margin-left: -2.5rem;
+      margin-top: -2.5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
 
 #bv-top {
   color: rgba(255, 255, 255, 0.3);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   height: 50px;
   box-sizing: border-box;
   position: absolute;
@@ -62,42 +93,59 @@
   left: 0;
   width: 100%;
   padding: 10px 30px;
-  opacity: 0.5;
+  opacity: 0.3;
+  color: rgba(255, 255, 255, 0.8);
   -webkit-transition: opacity 0.2s ease;
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
+  #bv-top a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none; }
+    #bv-top a:hover {
+      color: rgba(255, 255, 255, 0.9); }
   #bv-top:hover {
     opacity: 0.75; }
   #bv-top #bv-close {
     float: right;
     height: 100%;
     font-size: 2rem;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.3); }
+    cursor: pointer; }
     #bv-top #bv-close i {
       top: 50%;
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       position: relative; }
+  #bv-top #bv-top-items {
+    font-family: sans-serif;
+    display: inline-block;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: relative; }
 
 #bv-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100px; }
+  height: 100px;
+  overflow: hidden; }
   #bv-bottom #bv-bottom-tray {
     position: absolute;
     height: 100%;
     width: 100%;
     transform: translateY(80px);
+    -webkit-transform: translateY(80px);
     background-color: rgba(0, 0, 0, 0.5);
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
-    transition: transform 0.2s ease; }
+    transition: transform 0.2s ease;
+    -webkit-transition: -webkit-transform 0.2s ease; }
   #bv-bottom:hover #bv-bottom-tray {
-    transform: translateY(0); }
+    transform: translateY(0);
+    -webkit-transform: translateY(0); }
   #bv-bottom #bv-page-indicators {
     height: 20px;
     text-align: center;
@@ -107,7 +155,8 @@
     margin: 0px auto;
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
-    transition: transform 0.2s ease; }
+    transition: transform 0.2s ease;
+    -webkit-transition: -webkit-transform 0.2s ease; }
     #bv-bottom #bv-page-indicators .bv-page-indicator {
       display: inline-block;
       margin: 0px 0px;
@@ -133,7 +182,8 @@
     left: 50%;
     -webkit-transition: transform 0.2s ease;
     -spec-transition: transform 0.2s ease;
-    transition: transform 0.2s ease; }
+    transition: transform 0.2s ease;
+    -webkit-transition: -webkit-transform 0.2s ease; }
     #bv-bottom #bv-thumbnails .bv-thumbnail {
       display: inline-block;
       box-sizing: border-box;
@@ -173,18 +223,38 @@
   -spec-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
   #bv-prev i, #bv-next i {
-    font-size: 10rem;
+    font-size: 7rem;
     position: absolute;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
-    @media screen and (max-width: 850px) {
-      #bv-prev i, #bv-next i {
-        /* for screens smaller then 850px, set the font size smaller */
-        font-size: 4rem; } }
   #bv-prev:hover, #bv-next:hover {
     opacity: 0.75; }
+
+@media (max-width: 850px) {
+  #bv-prev, #bv-next {
+    width: 15%; }
+    #bv-prev i, #bv-next i {
+      font-size: 8rem; }
+
+  #bv-bottom {
+    height: 120px; }
+    #bv-bottom #bv-bottom-tray {
+      transform: translateY(80px);
+      -webkit-transform: translateY(80px); }
+    #bv-bottom #bv-page-indicators {
+      height: 40px;
+      width: 24px; }
+      #bv-bottom #bv-page-indicators .bv-page-indicator {
+        width: 24px; }
+        #bv-bottom #bv-page-indicators .bv-page-indicator i {
+          font-size: 15px; }
+    #bv-bottom #bv-thumbnails {
+      width: 80px; }
+      #bv-bottom #bv-thumbnails .bv-thumbnail {
+        width: 70px;
+        height: 70px; } }
 
 /*# sourceMappingURL=boldviewer.css.map */

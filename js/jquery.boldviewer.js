@@ -1,5 +1,5 @@
 //jquery.boldviewer.js
-/*! BoldViewer @version 0.1.3 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
+/*! BoldViewer @version 0.2.0 | Bold Innovation Group | MIT License | github.com/BOLDInnovationGroup/image-viewer */
 /* Based on Swipebox github.com/brutaldesign/swipebox */
 
 ;( function ( window, document, $, undefined ) {
@@ -14,13 +14,20 @@
                 slideShown: null,
                 hideOverlayTime: 5000,
                 allowKeyboard: true,
+                topItemsHtml: '',
+                extraAttrs: '',
+                allowTouch: true,
+                type: 'image',
+                videoSize: {
+                    width: 640,
+                    height: 360
+                }
 			},
 			
 			plugin = this,
 			$elem,
 			selector = elem.selector,
 			$selector = $( selector ),
-            imageHtml = '<img class="content-item">',
 			/* jshint multistr: true */
 			html = '<div id="bv-overlay">\
 					<div id="bv-wrapper" tabindex="1">\
@@ -30,20 +37,12 @@
                         <div id="bv-overlays">\
                             <a id="bv-prev"><i class="fa fa-angle-left"></i></a>\
                             <a id="bv-next"><i class="fa fa-angle-right"></i></a>\
-                            <div id="bv-top">\
-                                <div id="bv-top-items"></div>\
-                                <a id="bv-close"><i class="fa fa-close"></i></a>\
-                            </div>\
-                            <div id="bv-bottom">\
-                                <div id="bv-bottom-tray">\
-                                    <div id="bv-page-indicators"></div>\
-                                    <div id="bv-thumbnails"></div>\
-                                </div>\
-                            </div>\
+                            <div id="bv-bottom"><div id="bv-bottom-tray"><div id="bv-page-indicators"></div><div id="bv-thumbnails"></div></div></div>\
+                            <div id="bv-top"><div id="bv-top-items"></div><a id="bv-close"><i class="fa fa-close"></i></a></div>\
                         </div>\
 					</div>\
 			     </div>',
-            
+                     
         viewer = {
             init: function(index) {
                 
@@ -61,10 +60,24 @@
                 viewer.slider = $("#bv-content-slider");
                 viewer.pageIndicators = $('#bv-page-indicators');
                 viewer.thumbnails = $('#bv-thumbnails');
+                viewer.topItems = $('#bv-top-items');
                 
                 $elem.each( function() {
-                    var $img = $('<div class="bv-slide" data-src=' + $(this).attr('href') + ">");
-                    viewer.slider.append($img);
+                    var extraAttrs = $(this).data('extra-attrs') + " " + plugin.settings.extraAttrs;
+                    var imgHTML = '<div class="bv-slide" data-src=' + $(this).attr('href') + ' ';
+                    var type = $(this).data('type');
+                    
+                    if(extraAttrs) {
+                        imgHTML += extraAttrs;
+                    }
+                    
+                    if(type) {
+                        imgHTML += "data-type='" + type + "' ";    
+                    }
+                    
+                    imgHTML += "><i class='spinner fa fa-circle-o-notch fa-spin'></i></div>";
+                    
+                    viewer.slider.append(imgHTML);
                     
                     var $pageIndicator = $('<div class="bv-page-indicator"><i class="fa fa-circle"></i></div>');
                     viewer.pageIndicators.append($pageIndicator);
@@ -74,27 +87,40 @@
                 });
                 
                 viewer.slides = viewer.slider.find(".bv-slide");
+                viewer.topItems.html(plugin.settings.topItemsHtml);
                 viewer.bindActions();
+                
+                $('html').css('overflow', 'hidden');
             },
             bindActions: function() {
                 $('#bv-next').on('click', function(e) {
                     e.stopPropagation();
                     viewer.nextSlide();
+                    if(plugin.settings.hideOverlayTime > 0) {
+                        viewer.resetOverlayTimer();
+                    }
                 });
                 
                 $('#bv-prev').on('click', function(e) {
                     e.stopPropagation();
                     viewer.prevSlide();
+                    if(plugin.settings.hideOverlayTime > 0) {
+                        viewer.resetOverlayTimer();
+                    }
                 });
                 
                 if(plugin.settings.hideOverlayTime > 0) {
-                    $('#bv-wrapper').mousemove(this.handleMouseMove);
+                    $('#bv-wrapper').mousemove(viewer.resetOverlayTimer);
                 }
                 
                 $('.bv-thumbnail').on('click', function(e) {
                     e.stopPropagation();
 
                     viewer.setSlide(viewer.thumbnails.find('.bv-thumbnail').index(this));
+                    
+                    if(plugin.settings.hideOverlayTime > 0) {
+                        viewer.resetOverlayTimer();
+                    }
                 });
                 
                 $('#bv-close').on('click', function(e) {
@@ -104,34 +130,121 @@
                 
                 if(plugin.settings.allowKeyboard) {
                     $('#bv-wrapper').keydown(function (e) {
-                        e.preventDefault();
-                        
                         if(e.which == 37) {
-                            viewer.prevSlide();   
+                            e.preventDefault();
+                            viewer.prevSlide();
                         } else if(e.which == 39) {
-                            viewer.nextSlide();   
+                            e.preventDefault();
+                            viewer.nextSlide();
                         } else if(e.which == 27) {
-                            viewer.close();   
+                            e.preventDefault();
+                            viewer.close();
                         } else if(e.which == 36) {
-                            viewer.setSlide();   
+                            e.preventDefault();
+                            viewer.setSlide(0);
+                        } else if(e.which == 35) {
+                            e.preventDefault();
+                            viewer.setSlide(viewer.slides.length-1);
                         }
                     });
                 }
+                
+                if(plugin.settings.allowTouch) {
+                    $('#bv-content')[0].addEventListener('touchstart', function (e) {
+
+                        //check incase the setting has changed since attaching the listener
+                        if(plugin.settings.allowTouch) {
+                            viewer.startDrag($('#bv-content-slider'), e);
+                        }
+                    }, false);
+
+                    $('#bv-content')[0].addEventListener('touchend', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.stopDrag($('#bv-content-slider'));
+                        }
+                    }, false);
+
+                    $('#bv-content')[0].addEventListener('touchcancel', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.stopDrag($('#bv-content-slider'));
+                        }
+                    }, false);
+
+                    $('#bv-content')[0].addEventListener('touchmove', function (e) {
+                        if(plugin.settings.allowTouch) {
+                            viewer.doDrag($('#bv-content-slider'), e);
+                        }
+                    }, false);
+                }
+                
+                $(window).on('popstate', function(e){
+                    viewer.close();
+                });
             },
-            handleMouseMove: function() {
-                if(viewer.mouseMoveTimer != null) {
-                    clearTimeout(viewer.mouseMoveTimer);
+            startDrag: function(elem, event) {
+                $this = elem;
+                $this.data('dragging', true);
+                $this.data('mouseX', event.touches[0].pageX);
+                $this.data('old-transition-duration', $this.css('transition-duration'));
+                $this.data('old-webkit-transition-duration', $this.css('-webkit-transition-duration'));
+                $this.css('-webkit-transition-duration', '0s');
+                $this.css('transition-duration', '0s');
+            },
+            stopDrag: function(elem) {
+                $this = elem;
+                $this.data('dragging', false);
+                $this.data('mouseX', '');
+                $this.css('-webkit-transition-duration', $this.data('old-webkit-transition-duration'));
+                
+                //figure out what slide to go to
+                var style = window.getComputedStyle($this.get(0));  // Need the DOM object
+                var matrix = new WebKitCSSMatrix(style.webkitTransform);
+                var currentTranslateX = matrix.m41;
+                
+                var pageWidth = $this.width();
+                var page = Math.round(-currentTranslateX / $this.width())
+                
+                if(page >= viewer.slides.length) {
+                    page = viewer.slides.length -1;
+                } else if (page < 0) {
+                    page = 0;
+                }
+                
+                viewer.setSlide(page);
+            },
+            doDrag: function(elem, event) {
+                $this = elem;
+                if($this.data('dragging')) {
+                    var xDiff = event.touches[0].pageX - $this.data('mouseX');
+                    var style = window.getComputedStyle($this.get(0));  // Need the DOM object
+                    var matrix = new WebKitCSSMatrix(style.webkitTransform);
+                    var currentTranslateX = matrix.m41;
+
+                    $this.css('transform',  "translateX(" + (currentTranslateX + xDiff) + "px)")
+                    $this.data('mouseX', event.touches[0].pageX);
+                }
+            },
+            resetOverlayTimer: function() {
+                if(viewer.overlayTimer != null) {
+                    clearTimeout(viewer.overlayTimer);
                 }
                 
                 $('#bv-wrapper').removeClass('bv-hide-overlays');
                 
-                viewer.mouseMoveTimer = setTimeout(function () {
-                    $('#bv-wrapper').addClass('bv-hide-overlays');
-                }, plugin.settings.hideOverlayTime);
+                if(plugin.settings.hideOverlayTime > 0) {
+                    viewer.overlayTimer = setTimeout(function () {
+                        
+                        //overlay hiding could have been disabled while waiting for the timeout
+                        if(plugin.settings.hideOverlayTime > 0) {
+                            $('#bv-wrapper').addClass('bv-hide-overlays');
+                        }
+                    }, plugin.settings.hideOverlayTime);
+                }
             },
             close: function() {
                 $('#bv-overlay').empty();
                 $('#bv-overlay').remove();
+                $('html').css('overflow', 'scroll');
                 
                 if(plugin.settings.afterClose) {
                    plugin.settings.afterClose();
@@ -142,7 +255,8 @@
                     index = 0;   
                 }
                 
-                currentIndex = index;
+                var previousIndex = this.currentIndex;
+                this.currentIndex = index;
                 
                 viewer.slider.css("transform", "translateX(-" + index * 100 + "%)");
                 
@@ -154,44 +268,91 @@
                 viewer.thumbnails.find('.bv-thumbnail:nth-of-type(' + (index+1) + ")").addClass('bv-current');
                 viewer.thumbnails.css("transform", "translateX(-" + (index * 100 + 50) + "%)");
                 
+                //check if previous slide was a video so we can stop it
+                if(previousIndex != -1) {
+                    var previousSlide = $(viewer.slides[previousIndex]);
+                    if (previousSlide.data('type') && previousSlide.data('type').indexOf('video') >= 0) {
+                        var video = previousSlide.find('video');
+                        
+                        if(video.length > 0) {
+                            video[0].pause();
+                            video[0].currentTime = 0;
+                        }
+                    }
+                }
+                
+                if(Math.abs(previousIndex-1 - index) > 1)
+                    this.unloadSlide(previousIndex-1);
+                
+                if(Math.abs(previousIndex - index) > 1)
+                    this.unloadSlide(previousIndex);
+                
+                if(Math.abs(previousIndex+1 - index) > 1)
+                    this.unloadSlide(previousIndex+1);
                 
                 this.loadSlide(index);
                 
-//                // preload adjacent slides
-//                this.loadSlide(index-1);
-//                this.loadSlide(index+1);
+                // preload adjacent slides
+                this.loadSlide(index-1);
+                this.loadSlide(index+1);
                 
-//                if(plugin.settings.slideShown) {
-//                   plugin.settings.slideShown(viewer.slides[index], index);
-//                }
+                if(plugin.settings.slideShown) {
+                   plugin.settings.slideShown(viewer.slides[index], index);
+                }
             },
             loadSlide: function(index) {
                 if(index >= 0 && index < viewer.slides.length) {
                     var slide = $(viewer.slides[index]);
-
-                    if(slide.children().length == 0) {
-                        slide.html('<img src=' + slide.data('src') +'>');
+                    var type = slide.data('type') ? slide.data('type') : plugin.settings.type;
+                    
+                    if(slide.children().length == 1) {
+                        slide.find('.spinner').css("display", "block");
+                        
+                        if(type.indexOf('image') >= 0) {
+                            slide.append('<img src=' + slide.data('src') +'>');
+                            slide.find('img').addClass('loading').on('load', viewer.handleImageLoaded);
+                        } else if(type.indexOf('video') >= 0) {
+                            slide.append('<video controls>\
+                                <source src="' + slide.data('src') + '" type="' + type + '">\
+                                Your browser does not support the video tag.\
+                                </video>');
+                            var video = slide.find('video');
+                            video.addClass('loading').on('loadeddata', viewer.handleImageLoaded);
+                            video[0].load();
+                        }
+                    } else if (type.indexOf('video') >= 0) {
+                        var video = slide.find('video');
+                        
+                        if(video.length > 0) {
+                            video[0].currentTime = 0;
+                        }
                     }
                 }
             },
             unloadSlide: function(index) {
                 if(index >= 0 && index < viewer.slides.length) {
-                    $(viewer.slides[index]).empty();
+                    var slide = $(viewer.slides[index]);
+                    slide.find('img').remove();
+                    slide.find('video').remove();
+                    slide.find('.spinner').css("display", "none");
                 }
             },
+            handleImageLoaded: function() {
+                var $this = $(this);
+                $this.siblings('.spinner').css('display', 'none');
+                $this.removeClass('loading');
+            },
             nextSlide: function() {
-                if(currentIndex < viewer.slides.length - 1) {
-                    currentIndex ++;
-                    viewer.setSlide(currentIndex);
+                if(this.currentIndex < viewer.slides.length - 1) {
+                    viewer.setSlide(this.currentIndex+1);
                 }
             },
             prevSlide: function() {
-                if(currentIndex > 0) {
-                    currentIndex --;
-                    viewer.setSlide(currentIndex);
+                if(this.currentIndex > 0) {
+                    viewer.setSlide(this.currentIndex-1);
                 }
             },
-            currentIndex : 0,
+            currentIndex : -1,
             slider : null,
             slides : new Array(),
             pageIndicators: null,
